@@ -7,7 +7,7 @@ This Native Extension integrates the [Effekseer](https://effekseer.github.io/) p
 * Play effects in `.efkefc` format.
 * Support for textures, materials, and models used in the effects.
 * High-performance caching system: effects are loaded into video memory once and "fired" instantly.
-* **Two ways to use:** via a ready-to-use smart component (`emitter.script`) or directly from code (C++ API).
+* **Two ways to use:** via a ready-to-use smart component (`emitter.script`) or directly from code (LUA API).
 * Control over position, rotation (via quaternions), scale, speed, and pause state.
 * Integration with Defold's render pipeline (effects are drawn automatically via Post-Render callback).
 
