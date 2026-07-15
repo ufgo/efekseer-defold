@@ -1,0 +1,18 @@
+{
+  :code {
+    :breakpoints [
+    ]
+    :find {
+      :case-sensitive false
+      :replacement "GD.setCoins(self, GD"
+      :term "function("
+      :whole-word false
+      :wrap true
+    }
+  }
+  :search-in-files {
+    :exts ""
+    :include-libraries false
+    :term "init"
+  }
+}

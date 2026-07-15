@@ -1,0 +1,50 @@
+name: "effekseer"
+
+platforms:
+  x86_64-osx:
+    context:
+      includes: ["include"]
+      flags: ["-std=c++17", "-Wno-inconsistent-missing-override", "-Wno-macro-redefined"]
+      defines: ["EFK_RENDERER_GL"]
+      frameworks: ["OpenGL", "AppKit"]
+  arm64-osx:
+    context:
+      includes: ["include"]
+      flags: ["-std=c++17", "-Wno-inconsistent-missing-override", "-Wno-macro-redefined"]
+      defines: ["EFK_RENDERER_GL"]
+      frameworks: ["OpenGL", "AppKit"]
+  x86_64-linux:
+    context:
+      includes: ["include"]
+      flags: ["-std=c++17", "-Wno-inconsistent-missing-override", "-Wno-macro-redefined"]
+      defines: ["EFK_RENDERER_GL"]
+  arm64-android:
+    context:
+      includes: ["include"]
+      flags: ["-std=c++17", "-Wno-inconsistent-missing-override", "-Wno-macro-redefined"]
+      defines: ["EFK_RENDERER_GL", "__EFFEKSEER_RENDERER_GLES2__"]
+  armv7-android:
+    context:
+      includes: ["include"]
+      flags: ["-std=c++17", "-Wno-inconsistent-missing-override", "-Wno-macro-redefined"]
+      defines: ["EFK_RENDERER_GL", "__EFFEKSEER_RENDERER_GLES2__"]
+  js-web:
+    context:
+      includes: ["include"]
+      flags: ["-std=c++17", "-Wno-inconsistent-missing-override", "-Wno-macro-redefined"]
+      defines: ["EFK_RENDERER_GL", "__EFFEKSEER_RENDERER_GLES3__"]
+  wasm-web:
+    context:
+      includes: ["include"]
+      flags: ["-std=c++17", "-Wno-inconsistent-missing-override", "-Wno-macro-redefined"]
+      defines: ["EFK_RENDERER_GL", "__EFFEKSEER_RENDERER_GLES3__"]
+  x86_64-win32:
+    context:
+      includes: ["include"]
+      flags: ["-std=c++17", "-Wno-inconsistent-missing-override", "-Wno-macro-redefined"]
+      defines: ["EFK_RENDERER_GL"]
+  x86-win32:
+    context:
+      includes: ["include"]
+      flags: ["-std=c++17", "-Wno-inconsistent-missing-override", "-Wno-macro-redefined"]
+      defines: ["EFK_RENDERER_GL"]

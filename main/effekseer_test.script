@@ -1,0 +1,16 @@
+function init(self)
+	self.effect_buffer = sys.load_resource("/assets/sword/sword.efkefc")
+
+	if self.effect_buffer then
+		local handle = effekseer.play_effect(self.effect_buffer, 10.0, "/assets/sword/", {loop = true})
+		if handle then
+			effekseer.set_location(handle, 0, 0, 0)
+		end
+	end
+
+	self.timer = 0
+	self.played = false
+end
+
+function update(self, dt)
+end

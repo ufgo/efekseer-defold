@@ -1,0 +1,27 @@
+[bootstrap]
+main_collection = /main/main.collectionc
+render = /my_render/my.renderc
+
+[script]
+shared_state = 1
+
+[display]
+width = 960
+height = 640
+high_dpi = 1
+
+[project]
+title = Effekseer Extension
+custom_resources = /assets
+
+[library]
+include_dirs = myextension
+
+[native_extension]
+app_manifest = /custom.appmanifest
+app_manifest = /custom.appmanifest
+
+[html5]
+show_fullscreen_button = 0
+show_made_with_defold = 0
+

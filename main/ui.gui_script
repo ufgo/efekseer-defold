@@ -1,0 +1,21 @@
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.current_effect = 1
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.pressed then
+		local clicked_box = gui.pick_node(gui.get_node("box"), action.x, action.y)
+		local clicked_box1 = gui.pick_node(gui.get_node("box1"), action.x, action.y)
+		
+		if clicked_box then
+			self.current_effect = self.current_effect - 1
+			if self.current_effect < 1 then self.current_effect = 3 end
+			msg.post("main:/efx#main", "play_effect", { index = self.current_effect })
+		elseif clicked_box1 then
+			self.current_effect = self.current_effect + 1
+			if self.current_effect > 3 then self.current_effect = 1 end
+			msg.post("main:/efx#main", "play_effect", { index = self.current_effect })
+		end
+	end
+end

@@ -1,0 +1,121 @@
+go.property("effect_id", hash(""))
+go.property("play_on_init", false)
+go.property("track_transform", true)
+go.property("scale", 1.0)
+go.property("speed", 1.0)
+go.property("loop", false)
+go.property("paused", false)
+
+local effekseer_module = require("effekseer.effekseer")
+
+local function sync_transform(self)
+    if not self.instance_id then return end
+    
+    local pos = go.get_world_position()
+    local rot = go.get_world_rotation()
+    local scale = go.get_world_scale()
+    
+    if self.last_pos ~= pos then
+        effekseer.set_location(self.instance_id, pos.x, pos.y, pos.z)
+        self.last_pos = pos
+    end
+    
+    if self.last_rot ~= rot then
+        effekseer.set_rotation_quat(self.instance_id, rot.x, rot.y, rot.z, rot.w)
+        self.last_rot = rot
+    end
+    
+    if self.last_scale ~= scale then
+        effekseer.set_scale(self.instance_id, scale.x * self.scale, scale.y * self.scale, scale.z * self.scale)
+        self.last_scale = scale
+    end
+end
+
+local function load_effect_if_needed(self)
+    if self.loaded_effect_id then return true end
+    
+    if self.effect_id == hash("") then
+        print("[Effekseer Emitter] Warning: effect_id is empty!")
+        return false
+    end
+    
+    local path = effekseer_module.get_path(self.effect_id)
+    if not path then
+        print("[Effekseer Emitter] Error: Path not found in registry for effect_id:", self.effect_id, "Did you call effekseer_module.register()?")
+        return false
+    end
+    
+    local data = sys.load_resource(path)
+    if data then
+        local base_path = string.match(path, "(.*/)")
+        self.loaded_effect_id = effekseer.load_effect(data, self.scale, base_path)
+        return true
+    else
+        print("[Effekseer Emitter] Error: Failed to load resource:", path)
+        return false
+    end
+end
+
+local function play(self)
+    if not load_effect_if_needed(self) then return end
+    
+    self.instance_id = effekseer.play(self.loaded_effect_id, { loop = self.loop, speed = self.speed })
+    self.is_playing = true
+    
+    if self.paused then
+        effekseer.set_paused(self.instance_id, true)
+    end
+    
+    sync_transform(self)
+end
+
+local function stop(self)
+    if self.instance_id then
+        effekseer.stop_effect(self.instance_id)
+        self.instance_id = nil
+    end
+    self.is_playing = false
+end
+
+function init(self)
+    self.is_playing = false
+    self.instance_id = nil
+    self.loaded_effect_id = nil
+    
+    if self.play_on_init then
+        play(self)
+    end
+end
+
+function update(self, dt)
+    if self.is_playing and self.track_transform then
+        sync_transform(self)
+    end
+end
+
+function on_message(self, message_id, message, sender)
+    if message_id == hash("play") then
+        play(self)
+    elseif message_id == hash("stop") then
+        stop(self)
+    elseif message_id == hash("pause") then
+        self.paused = true
+        if self.instance_id then
+            effekseer.set_paused(self.instance_id, true)
+        end
+    elseif message_id == hash("resume") then
+        self.paused = false
+        if self.instance_id then
+            effekseer.set_paused(self.instance_id, false)
+        end
+    elseif message_id == hash("set_speed") then
+        self.speed = message.speed or 1.0
+        if self.instance_id then
+            effekseer.set_speed(self.instance_id, self.speed)
+        end
+    end
+end
+
+function final(self)
+    stop(self)
+end

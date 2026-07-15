@@ -1,0 +1,8 @@
+function init(self)
+    local data = sys.load_resource("/assets/Round.efkmodel")
+    if data then
+        print("TEST: loaded Round.efkmodel OK, size:", #data)
+    else
+        print("TEST: failed to load Round.efkmodel")
+    end
+end

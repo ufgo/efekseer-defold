@@ -1,0 +1,37 @@
+
+local EFFECTS = {
+	{ path = "/assets/sword/sword.efkefc", folder = "/assets/sword/" },
+	{ path = "/assets/Light.efkefc", folder = "/assets/" },
+	{ path = "/assets/toon_hit.efkefc", folder = "/assets/" }
+}
+
+function init(self)
+	self.effect_ids = {}
+	self.handle = nil
+	
+	for i, efx in ipairs(EFFECTS) do
+		local buffer = sys.load_resource(efx.path)
+		if buffer then
+			self.effect_ids[i] = effekseer.load_effect(buffer, 10.0, efx.folder)
+		end
+	end
+	
+	msg.post(".", "play_effect", { index = 1 })
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("play_effect") then
+		if self.handle then
+			effekseer.stop_effect(self.handle)
+			self.handle = nil
+		end
+		
+		local effect_id = self.effect_ids[message.index]
+		if effect_id then
+			self.handle = effekseer.play(effect_id, { loop = true, speed = 1.0 })
+			if self.handle then
+				effekseer.set_location(self.handle, 0, 0, 0)
+			end
+		end
+	end
+end

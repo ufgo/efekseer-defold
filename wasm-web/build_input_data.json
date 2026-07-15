@@ -1,0 +1,13 @@
+{
+  "project_git" : {
+    "sha1" : "54550172c92b7e6ff2fca0144e0b68f9b2ec7952",
+    "origin" : "https://github.com/ufgo/Efekseer-Extension.git",
+    "branch" : "main"
+  },
+  "bob_arguments" : {
+    "sha1" : "f735c12192bf95684e6ae1ae27c400b8170fc6d8",
+    "version" : "1.13.0",
+    "timestamp" : "2026-07-07 11:40:03"
+  },
+  "defold_sdk" : "f735c12192bf95684e6ae1ae27c400b8170fc6d8"
+}
